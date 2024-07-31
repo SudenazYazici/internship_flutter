@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
               margin: EdgeInsets.all(8.0),
               padding: EdgeInsets.all(26.0),
               //color: Colors.blueGrey[800],
+
               child: Transform(
                 transform: Matrix4.rotationZ(-0.2),
                 alignment: FractionalOffset.center,
@@ -37,6 +38,14 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // fill the method
+          },
+          label: Text("Buy Ticket"),
+          icon: Icon(Icons.add),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
