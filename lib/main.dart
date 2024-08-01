@@ -1,4 +1,6 @@
+import 'package:first_flutter/login_page.dart';
 import 'package:first_flutter/movies_page.dart';
+import 'package:first_flutter/register_page.dart';
 import 'package:first_flutter/theatres_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -43,6 +45,19 @@ class NavigationExample extends StatefulWidget {
 
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 0;
+  bool isAuthenticated = false;
+
+  void _login() {
+    setState(() {
+      isAuthenticated = true;
+    });
+  }
+
+  void _logout() {
+    setState(() {
+      isAuthenticated = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,20 +78,34 @@ class _NavigationExampleState extends State<NavigationExample> {
             label: 'Home',
           ),
           NavigationDestination(
+            selectedIcon: Icon(Icons.movie_creation),
             icon: Icon(Icons.movie_creation_outlined),
             label: 'Movies',
           ),
           NavigationDestination(
+            selectedIcon: Icon(Icons.location_on),
             icon: Icon(Icons.location_on_outlined),
             label: 'Theatres',
           ),
           NavigationDestination(
+            selectedIcon: Icon(Icons.add_outlined),
             icon: Icon(Icons.add),
             label: 'Book Ticket',
           ),
           NavigationDestination(
+            selectedIcon: Icon(Icons.account_circle),
             icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.add_box),
+            icon: Icon(Icons.add_box_outlined),
+            label: 'Login',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.add_box),
+            icon: Icon(Icons.add_box_outlined),
+            label: 'Register',
           ),
         ],
       ),
@@ -92,20 +121,33 @@ class _NavigationExampleState extends State<NavigationExample> {
             ),
             body: SafeArea(
               child: Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      //borderRadius: BorderRadiusDirectional.circular(16.0),
-                      color: Colors.blueGrey[800]),
-                  margin: EdgeInsets.all(8.0),
-                  padding: EdgeInsets.all(26.0),
-                  //color: Colors.blueGrey[800],
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "WELCOME",
+                      style: TextStyle(
+                        color: Colors.blueGrey[400],
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          //borderRadius: BorderRadiusDirectional.circular(16.0),
+                          color: Colors.blueGrey[800]),
+                      margin: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(26.0),
+                      //color: Colors.blueGrey[800],
 
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://upload.wikimedia.org/wikipedia/commons/2/2f/Sala_de_cine.jpg"),
-                    radius: 150.0,
-                  ),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://upload.wikimedia.org/wikipedia/commons/2/2f/Sala_de_cine.jpg"),
+                        radius: 150.0,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -161,29 +203,41 @@ class _NavigationExampleState extends State<NavigationExample> {
           ),
 
           /// Profile page
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                SafeArea(
-                  child: Card(
+          Scaffold(
+            backgroundColor: Colors.blueGrey[100],
+            appBar: AppBar(
+              title: const Text('Profile Page'),
+            ),
+            body: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  SafeArea(
+                    child: Card(
+                      child: ListTile(
+                        leading: Icon(Icons.arrow_forward_ios),
+                        title: Text('Ticket 1'),
+                        subtitle: Text('This is a movie ticket'),
+                      ),
+                    ),
+                  ),
+                  Card(
                     child: ListTile(
                       leading: Icon(Icons.arrow_forward_ios),
-                      title: Text('Ticket 1'),
+                      title: Text('Ticket 2'),
                       subtitle: Text('This is a movie ticket'),
                     ),
                   ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: Icon(Icons.arrow_forward_ios),
-                    title: Text('Ticket 2'),
-                    subtitle: Text('This is a movie ticket'),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+
+          ///Login page
+          LoginPage(),
+
+          ///Register page
+          RegisterPage(),
         ][currentPageIndex],
       ),
     );

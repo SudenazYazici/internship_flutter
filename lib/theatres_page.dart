@@ -31,6 +31,7 @@ class _TheatresPageState extends State<TheatresPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
         title: Text('Theatres'),
       ),
@@ -50,7 +51,7 @@ class _TheatresPageState extends State<TheatresPage> {
                 final theatre = snapshot.data![index];
                 return Card(
                   child: ListTile(
-                    leading: Icon(Icons.location_on_outlined),
+                    leading: Icon(Icons.location_on_sharp),
                     title: Text(theatre.name),
                     subtitle: Text(theatre.address),
                   ),
