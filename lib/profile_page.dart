@@ -83,17 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _handleDeleteTicket(int ticketId) async {
     try {
       await deleteTicket(ticketId);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      int userId = prefs.getInt('userId') ?? 0;
-      if (userId != 0) {
-        setState(() {
-          _ticketsFuture = fetchTickets(userId);
-        });
-      } else {
-        setState(() {
-          _ticketsFuture = Future.error('User ID not found');
-        });
-      }
+      _fetchUserTickets();
     } catch (e) {
       print('Failed to delete ticket: $e');
       ScaffoldMessenger.of(context).showSnackBar(
