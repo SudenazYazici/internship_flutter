@@ -55,7 +55,10 @@ class _MoviesPageState extends State<MoviesPage> {
                     child: ListTile(
                       leading: Icon(Icons.movie_creation),
                       title: Text(movie.name),
-                      subtitle: Text(movie.details),
+                      subtitle: Text(
+                        movie.details,
+                        style: TextStyle(color: Colors.grey[600]),
+                      ),
                     ),
                   );
                 },

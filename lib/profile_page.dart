@@ -17,12 +17,14 @@ Future<List<Ticket>> fetchTickets(int userId) async {
 
 class Ticket {
   final int id;
+  final int cinemaId;
   final String movieName;
   final DateTime date;
   final int price;
 
   Ticket(
       {required this.id,
+      required this.cinemaId,
       required this.movieName,
       required this.date,
       required this.price});
@@ -30,6 +32,7 @@ class Ticket {
   factory Ticket.fromJson(Map<String, dynamic> json) {
     return Ticket(
       id: json['id'],
+      cinemaId: json['cinemaId'],
       movieName: json['movieName'],
       date: DateTime.parse(json['date']),
       price: json['price'],
@@ -98,7 +101,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: <Widget>[
                   Text(
                     "Your Tickets",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[800]),
                   ),
                   SizedBox(height: 16),
                   Expanded(

@@ -1,3 +1,4 @@
+import 'package:first_flutter/book_ticket_page.dart';
 import 'package:first_flutter/home_page.dart';
 import 'package:first_flutter/login_page.dart';
 import 'package:first_flutter/movies_page.dart';
@@ -132,15 +133,7 @@ class _NavigationExampleState extends State<NavigationExample> {
           TheatresPage(),
 
           /// Book Ticket page
-          Scaffold(
-            backgroundColor: Colors.blueGrey[100],
-            appBar: AppBar(
-              title: const Text("Book Ticket"),
-            ),
-            body: const Padding(
-              padding: EdgeInsets.all(8.0),
-            ),
-          ),
+          BookTicketPage(),
 
           /// Profile page or Login page based on authentication
           _isLoggedIn

@@ -55,7 +55,10 @@ class _TheatresPageState extends State<TheatresPage> {
                     child: ListTile(
                       leading: Icon(Icons.location_on_sharp),
                       title: Text(theatre.name),
-                      subtitle: Text(theatre.address),
+                      subtitle: Text(
+                        theatre.address,
+                        style: TextStyle(color: Colors.grey[600]),
+                      ),
                     ),
                   );
                 },
