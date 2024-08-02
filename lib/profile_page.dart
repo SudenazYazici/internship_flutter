@@ -15,6 +15,15 @@ Future<List<Ticket>> fetchTickets(int userId) async {
   }
 }
 
+Future<void> deleteTicket(int ticketId) async {
+  final response = await http
+      .delete(Uri.parse('https://10.0.2.2:7030/api/Ticket/$ticketId'));
+
+  if (response.statusCode != 204) {
+    throw Exception('Failed to delete ticket');
+  }
+}
+
 class Ticket {
   final int id;
   final int cinemaId;
@@ -71,6 +80,54 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> _handleDeleteTicket(int ticketId) async {
+    try {
+      await deleteTicket(ticketId);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      int userId = prefs.getInt('userId') ?? 0;
+      if (userId != 0) {
+        setState(() {
+          _ticketsFuture = fetchTickets(userId);
+        });
+      } else {
+        setState(() {
+          _ticketsFuture = Future.error('User ID not found');
+        });
+      }
+    } catch (e) {
+      print('Failed to delete ticket: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete ticket')),
+      );
+    }
+  }
+
+  Future<void> _confirmDeleteTicket(int ticketId) async {
+    bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirm Deletion'),
+          content: Text('Are you sure you want to delete this ticket?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      _handleDeleteTicket(ticketId);
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
@@ -119,6 +176,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             subtitle: Text(
                               'Date: ${ticket.date.toLocal()} \nPrice: \$${ticket.price}',
                               style: TextStyle(color: Colors.grey[600]),
+                            ),
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _confirmDeleteTicket(ticket.id),
                             ),
                           ),
                         );
