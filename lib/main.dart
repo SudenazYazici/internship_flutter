@@ -1,9 +1,12 @@
 import 'package:first_flutter/login_page.dart';
 import 'package:first_flutter/movies_page.dart';
+import 'package:first_flutter/profile_page.dart';
 import 'package:first_flutter/register_page.dart';
 import 'package:first_flutter/theatres_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   //!!!Be careful!!!
@@ -45,17 +48,33 @@ class NavigationExample extends StatefulWidget {
 
 class _NavigationExampleState extends State<NavigationExample> {
   int currentPageIndex = 0;
-  bool isAuthenticated = false;
+  bool _isLoggedIn = false;
 
-  void _login() {
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString('user');
     setState(() {
-      isAuthenticated = true;
+      _isLoggedIn = user != null;
     });
   }
 
-  void _logout() {
+  void _handleLogin() {
     setState(() {
-      isAuthenticated = false;
+      _isLoggedIn = true;
+    });
+  }
+
+  void _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user'); // Remove user data
+    setState(() {
+      _isLoggedIn = false; // Update the state to reflect the logout
     });
   }
 
@@ -96,16 +115,6 @@ class _NavigationExampleState extends State<NavigationExample> {
             selectedIcon: Icon(Icons.account_circle),
             icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.add_box),
-            icon: Icon(Icons.add_box_outlined),
-            label: 'Login',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.add_box),
-            icon: Icon(Icons.add_box_outlined),
-            label: 'Register',
           ),
         ],
       ),
@@ -170,42 +179,15 @@ class _NavigationExampleState extends State<NavigationExample> {
             ),
           ),
 
-          /// Profile page
-          Scaffold(
-            backgroundColor: Colors.blueGrey[100],
-            appBar: AppBar(
-              title: const Text('Profile Page'),
-            ),
-            body: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  SafeArea(
-                    child: Card(
-                      child: ListTile(
-                        leading: Icon(Icons.arrow_forward_ios),
-                        title: Text('Ticket 1'),
-                        subtitle: Text('This is a movie ticket'),
-                      ),
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      leading: Icon(Icons.arrow_forward_ios),
-                      title: Text('Ticket 2'),
-                      subtitle: Text('This is a movie ticket'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          ///Login page
-          LoginPage(),
-
-          ///Register page
-          RegisterPage(),
+          /// Profile page or Login page based on authentication
+          _isLoggedIn
+              ? ProfilePage(onLogout: _logout)
+              : Column(
+                  children: [
+                    Flexible(child: LoginPage(onLogin: _handleLogin)),
+                    Flexible(child: RegisterPage()),
+                  ],
+                ),
         ][currentPageIndex],
       ),
     );

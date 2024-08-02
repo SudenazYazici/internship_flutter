@@ -5,7 +5,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final VoidCallback onLogin; // Callback to notify login status
+
+  const LoginPage({Key? key, required this.onLogin}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -50,6 +52,8 @@ class _LoginPageState extends State<LoginPage> {
       await prefs.setString('user', jsonEncode(user));
       print('User information stored in SharedPreferences.');
 
+      widget.onLogin();
+
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('User logged in successfully!')));
     } else {
@@ -64,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
-        title: const Text('Login Page'),
+        title: const Text('Login or Register Page'),
       ),
       body: Center(
         child: Padding(

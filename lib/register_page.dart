@@ -55,9 +55,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: const Text('Register Page'),
-      ),
+      ),*/
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
