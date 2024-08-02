@@ -3,27 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<List<Ticket>> fetchTickets(int userId) async {
-  final response = await http
-      .get(Uri.parse('https://10.0.2.2:7030/api/User/$userId/tickets'));
-
-  if (response.statusCode == 200) {
-    final List<dynamic> jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Ticket.fromJson(data)).toList();
-  } else {
-    throw Exception('Failed to load tickets');
-  }
-}
-
-Future<void> deleteTicket(int ticketId) async {
-  final response = await http
-      .delete(Uri.parse('https://10.0.2.2:7030/api/Ticket/$ticketId'));
-
-  if (response.statusCode != 204) {
-    throw Exception('Failed to delete ticket');
-  }
-}
-
 class Ticket {
   final int id;
   final int cinemaId;
@@ -46,6 +25,27 @@ class Ticket {
       date: DateTime.parse(json['date']),
       price: json['price'],
     );
+  }
+}
+
+Future<List<Ticket>> fetchTickets(int userId) async {
+  final response = await http
+      .get(Uri.parse('https://10.0.2.2:7030/api/User/$userId/tickets'));
+
+  if (response.statusCode == 200) {
+    final List<dynamic> jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => Ticket.fromJson(data)).toList();
+  } else {
+    throw Exception('Failed to load tickets');
+  }
+}
+
+Future<void> deleteTicket(int ticketId) async {
+  final response = await http
+      .delete(Uri.parse('https://10.0.2.2:7030/api/Ticket/$ticketId'));
+
+  if (response.statusCode != 204) {
+    throw Exception('Failed to delete ticket');
   }
 }
 
