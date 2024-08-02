@@ -1,3 +1,4 @@
+import 'package:first_flutter/home_page.dart';
 import 'package:first_flutter/login_page.dart';
 import 'package:first_flutter/movies_page.dart';
 import 'package:first_flutter/profile_page.dart';
@@ -122,45 +123,7 @@ class _NavigationExampleState extends State<NavigationExample> {
         color: Colors.blueGrey[100],
         child: <Widget>[
           /// Home page
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              backgroundColor: Colors.blueGrey[800],
-              title: Text("Cinema App"),
-            ),
-            body: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "WELCOME",
-                      style: TextStyle(
-                        color: Colors.blueGrey[400],
-                        fontSize: 40.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          //borderRadius: BorderRadiusDirectional.circular(16.0),
-                          color: Colors.blueGrey[800]),
-                      margin: EdgeInsets.all(8.0),
-                      padding: EdgeInsets.all(26.0),
-                      //color: Colors.blueGrey[800],
-
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://upload.wikimedia.org/wikipedia/commons/2/2f/Sala_de_cine.jpg"),
-                        radius: 150.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          HomePage(),
 
           ///Movies page
           MoviesPage(),
