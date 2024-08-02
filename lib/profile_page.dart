@@ -49,6 +49,18 @@ Future<void> deleteTicket(int ticketId) async {
   }
 }
 
+Future<String> getCinema(int cinemaId) async {
+  final response =
+      await http.get(Uri.parse('https://10.0.2.2:7030/api/Cinema/$cinemaId'));
+
+  if (response.statusCode == 200) {
+    final jsonResponse = json.decode(response.body);
+    return jsonResponse['name'];
+  } else {
+    throw Exception('Failed to load cinema');
+  }
+}
+
 class ProfilePage extends StatefulWidget {
   final VoidCallback onLogout;
   const ProfilePage({Key? key, required this.onLogout}) : super(key: key);
@@ -118,6 +130,18 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<String> _getCinemaOfTicket(int cinemaId) async {
+    try {
+      return await getCinema(cinemaId);
+    } catch (e) {
+      print('Failed to get cinema of ticket: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to get cinema of ticket')),
+      );
+      return 'Unknown Cinema';
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
@@ -163,9 +187,21 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: ListTile(
                             leading: Icon(Icons.arrow_forward_ios),
                             title: Text(ticket.movieName),
-                            subtitle: Text(
-                              'Date: ${ticket.date.toLocal()} \nPrice: \$${ticket.price}',
-                              style: TextStyle(color: Colors.grey[600]),
+                            subtitle: FutureBuilder<String>(
+                              future: _getCinemaOfTicket(ticket.cinemaId),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Text('Loading...');
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  return Text(
+                                    'Cinema: ${snapshot.data} \nDate: ${ticket.date.toLocal()} \nPrice: \$${ticket.price}',
+                                    style: TextStyle(color: Colors.grey[600]),
+                                  );
+                                }
+                              },
                             ),
                             trailing: IconButton(
                               icon: Icon(Icons.delete),
