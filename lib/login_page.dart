@@ -1,7 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class LoginPage extends StatelessWidget {
+import 'package:shared_preferences/shared_preferences.dart';
+
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter both email and password')),
+      );
+      return;
+    }
+
+    var url = Uri.parse('https://10.0.2.2:7030/api/User/login');
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'Email': email,
+        'Password': password,
+      }),
+    );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      var user = jsonDecode(response.body);
+      print('User logged in: $user');
+
+      // Store user information
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user', jsonEncode(user));
+      print('User information stored in SharedPreferences.');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User logged in successfully!')));
+    } else {
+      print('Failed to log in: ${response.reasonPhrase}');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Failed to log in: ${response.reasonPhrase}')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +72,23 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const TextField(
+              TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                 ),
               ),
               const SizedBox(height: 16),
-              const TextField(
+              TextField(
                 obscureText: true,
+                controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
                 ),
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _login,
                 child: const Text('Login'),
               ),
             ],
