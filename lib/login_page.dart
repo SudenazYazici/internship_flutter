@@ -46,10 +46,12 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       var user = jsonDecode(response.body);
       print('User logged in: $user');
+      int userId = user["id"];
 
       // Store user information
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('user', jsonEncode(user));
+      await prefs.setInt('userId', userId);
       print('User information stored in SharedPreferences.');
 
       widget.onLogin();
