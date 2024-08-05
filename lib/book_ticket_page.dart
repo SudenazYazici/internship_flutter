@@ -109,7 +109,6 @@ class _BookTicketPageState extends State<BookTicketPage> {
     List<int> unavailableSeatIds =
         await fetchUnavailableSeats(cinemaId, movieId, cinemaHallId, startTime);
 
-    // Filter out the unavailable seats
     return allSeats
         .where((seat) => !unavailableSeatIds.contains(seat.id))
         .toList();
