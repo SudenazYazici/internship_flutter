@@ -227,7 +227,7 @@ class _BookTicketPageState extends State<BookTicketPage> {
                     items: snapshot.data!.map((item) {
                       return DropdownMenuItem(
                         value: item.id,
-                        child: Text(item.hallNum.toString()),
+                        child: Text("Cinema Hall ${item.hallNum}"),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -302,7 +302,7 @@ class _BookTicketPageState extends State<BookTicketPage> {
                     items: snapshot.data!.map((item) {
                       return DropdownMenuItem(
                         value: item.id,
-                        child: Text(item.seatNum.toString()),
+                        child: Text('Seat ${item.seatNum}'),
                       );
                     }).toList(),
                     onChanged: (value) {
