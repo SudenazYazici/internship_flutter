@@ -130,6 +130,32 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> _confirmLogout() async {
+    bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirm Logout'),
+          content: Text('Are you sure you want to log out?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text('Log out'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      _logout();
+    }
+  }
+
   Future<String> _getCinemaOfTicket(int cinemaId) async {
     try {
       return await getCinema(cinemaId);
@@ -148,9 +174,16 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Profile Page'),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: _logout,
+          TextButton.icon(
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.black54,
+            ),
+            onPressed: _confirmLogout,
+            label: Text(
+              "Log out",
+              style: TextStyle(color: Colors.black54),
+            ),
           ),
         ],
       ),
