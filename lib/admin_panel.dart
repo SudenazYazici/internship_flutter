@@ -14,6 +14,21 @@ class _AdminPanelState extends State<AdminPanel> {
       backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
         title: const Text('Admin Panel'),
+        actions: <Widget>[
+          TextButton.icon(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black54,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            label: Text(
+              "Go Back",
+              style: TextStyle(color: Colors.black54),
+            ),
+          ),
+        ],
       ),
     );
   }
