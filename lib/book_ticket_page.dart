@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'models.dart';
 
 class BookTicketPage extends StatefulWidget {
@@ -13,11 +14,20 @@ class BookTicketPage extends StatefulWidget {
 class _BookTicketPageState extends State<BookTicketPage> {
   late Future<List<Cinema>> _theatres;
   Session? selectedSession;
+  Movie? selectedMovie;
+  int price = 150;
+  int? user_Id;
 
   @override
   void initState() {
     super.initState();
     _theatres = fetchTheatres();
+  }
+
+  Future<int> _fetchUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt('userId') ?? 0;
+    return userId;
   }
 
   Future<List<Cinema>> fetchTheatres() async {
@@ -114,11 +124,43 @@ class _BookTicketPageState extends State<BookTicketPage> {
         .toList();
   }
 
+  Future<void> buyTicket(String movieName, int cinemaId, int cinemaHallId,
+      int seatId, int sessionId, DateTime date, int price) async {
+    user_Id = await _fetchUserId();
+    final formattedStartTime = date.toIso8601String();
+    final response = await http.post(
+      Uri.parse('https://10.0.2.2:7030/api/Ticket'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'movieName': movieName,
+        'userId': user_Id.toString(),
+        'cinemaId': cinemaId.toString(),
+        'cinemaHallId': cinemaHallId.toString(),
+        'seatId': seatId.toString(),
+        'sessionId': sessionId.toString(),
+        'date': formattedStartTime,
+        'price': price.toString(),
+      }),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ticket bought successfully!')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to buy ticket. Please try again.')),
+      );
+    }
+  }
+
   int? newTheatre;
   int? newMovie;
   int? newCinemaHall;
   int? newSession;
   int? newSeat;
+  //String? newMovieName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,6 +182,8 @@ class _BookTicketPageState extends State<BookTicketPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return DropdownButton(
+                    dropdownColor: Colors.white,
+                    //style: TextStyle(color: Colors.black),
                     // Initial Value
                     value: newTheatre,
                     hint: Text('Select theatre'),
@@ -178,6 +222,7 @@ class _BookTicketPageState extends State<BookTicketPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return DropdownButton(
+                    dropdownColor: Colors.white,
                     // Initial Value
                     value: newMovie,
                     hint: Text('Select movie'),
@@ -197,7 +242,10 @@ class _BookTicketPageState extends State<BookTicketPage> {
                       newCinemaHall = null;
                       newSession = null;
                       newSeat = null;
-                      setState(() {});
+                      setState(() {
+                        selectedMovie = snapshot.data!
+                            .firstWhere((movie) => movie.id == value);
+                      });
                     },
                   );
                 } else {
@@ -215,6 +263,7 @@ class _BookTicketPageState extends State<BookTicketPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return DropdownButton(
+                    dropdownColor: Colors.white,
                     // Initial Value
                     value: newCinemaHall,
                     hint: Text('Select cinema hall'),
@@ -251,6 +300,7 @@ class _BookTicketPageState extends State<BookTicketPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return DropdownButton(
+                    dropdownColor: Colors.white,
                     // Initial Value
                     value: newSession,
                     hint: Text('Select session'),
@@ -290,6 +340,7 @@ class _BookTicketPageState extends State<BookTicketPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return DropdownButton(
+                    dropdownColor: Colors.white,
                     // Initial Value
                     value: newSeat,
                     hint: Text('Select seat'),
@@ -313,6 +364,13 @@ class _BookTicketPageState extends State<BookTicketPage> {
                   return Center(child: const CircularProgressIndicator());
                 }
               },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                buyTicket(selectedMovie!.name, newTheatre!, newCinemaHall!,
+                    newSeat!, newSession!, selectedSession!.startDate, price);
+              },
+              child: const Text('Buy Ticket'),
             ),
           ],
         ),
