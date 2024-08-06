@@ -53,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       await prefs.setString('user', jsonEncode(user));
       await prefs.setInt('userId', userId);
       await prefs.setString('userRole', user["role"]);
+      await prefs.setString('userToken', user["token"]);
       print('User information stored in SharedPreferences.');
 
       widget.onLogin();
