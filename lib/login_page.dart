@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('user', jsonEncode(user));
       await prefs.setInt('userId', userId);
+      await prefs.setString('userRole', user["role"]);
       print('User information stored in SharedPreferences.');
 
       widget.onLogin();

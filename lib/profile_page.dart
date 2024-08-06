@@ -1,3 +1,4 @@
+import 'package:first_flutter/admin_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -71,11 +72,25 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late Future<List<Ticket>>? _ticketsFuture;
+  late bool isAdmin;
 
   @override
   void initState() {
     super.initState();
     _fetchUserTickets();
+    getUserRole();
+  }
+
+  Future<void> getUserRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userRole = prefs.getString('userRole');
+    if (userRole == "admin") {
+      setState(() {
+        isAdmin = true;
+      });
+    } else {
+      isAdmin = false;
+    }
   }
 
   Future<void> _fetchUserTickets() async {
@@ -174,6 +189,23 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Profile Page'),
         actions: <Widget>[
+          if (isAdmin)
+            TextButton.icon(
+              icon: const Icon(
+                Icons.admin_panel_settings_outlined,
+                color: Colors.black54,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AdminPanel()),
+                );
+              },
+              label: Text(
+                "Panel",
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
           TextButton.icon(
             icon: const Icon(
               Icons.logout,
