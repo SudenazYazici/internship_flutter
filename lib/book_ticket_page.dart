@@ -166,7 +166,7 @@ class _BookTicketPageState extends State<BookTicketPage> {
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
-        title: Text("Book Ticket Page"),
+        title: Text("Book Ticket"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

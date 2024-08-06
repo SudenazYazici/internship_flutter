@@ -187,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
-        title: const Text('Profile Page'),
+        title: const Text('Profile'),
         actions: <Widget>[
           if (isAdmin)
             TextButton.icon(
