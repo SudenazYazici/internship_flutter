@@ -1,3 +1,4 @@
+import 'package:first_flutter/operations/admin_add.dart';
 import 'package:first_flutter/operations/theatre_add.dart';
 import 'package:first_flutter/operations/theatre_remove.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,9 @@ class _AdminPanelState extends State<AdminPanel> {
               if (selectedModel == ModelLabel.theatre &&
                   selectedOperation == OperationLabel.remove)
                 const TheatreRemove(),
+              if (selectedModel == ModelLabel.admin &&
+                  selectedOperation == OperationLabel.add)
+                const AdminAdd(),
             ],
           ),
         ),
