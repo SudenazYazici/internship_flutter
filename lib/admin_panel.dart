@@ -8,6 +8,8 @@ import 'package:first_flutter/operations/theatre_add.dart';
 import 'package:first_flutter/operations/theatre_remove.dart';
 import 'package:flutter/material.dart';
 
+import 'operations/seat_add.dart';
+
 enum ModelLabel {
   theatre('Theatre'),
   movie('Movie'),
@@ -134,6 +136,9 @@ class _AdminPanelState extends State<AdminPanel> {
               if (selectedModel == ModelLabel.cinemaHall &&
                   selectedOperation == OperationLabel.remove)
                 const CinemaHallRemove(),
+              if (selectedModel == ModelLabel.seat &&
+                  selectedOperation == OperationLabel.add)
+                const SeatAdd(),
               if (selectedModel == ModelLabel.admin &&
                   selectedOperation == OperationLabel.add)
                 const AdminAdd(),
