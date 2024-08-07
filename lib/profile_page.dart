@@ -48,8 +48,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late Future<List<Ticket>>? _ticketsFuture;
-  late bool isAdmin;
+  late Future<List<Ticket>>? _ticketsFuture = Future.value([]);
+  late bool isAdmin = false;
 
   @override
   void initState() {
@@ -66,7 +66,9 @@ class _ProfilePageState extends State<ProfilePage> {
         isAdmin = true;
       });
     } else {
-      isAdmin = false;
+      setState(() {
+        isAdmin = false;
+      });
     }
   }
 
