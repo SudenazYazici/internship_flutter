@@ -120,7 +120,7 @@ class _CinemaHallRemoveState extends State<CinemaHallRemove> {
                   return Card(
                     child: ListTile(
                       leading: Icon(Icons.location_on_sharp),
-                      title: Text(cinemaHall.hallNum.toString()),
+                      title: Text('Cinema Hall ${cinemaHall.hallNum}'),
                       subtitle: FutureBuilder<String>(
                         future: fetchCinemaName(cinemaHall.cinemaId),
                         builder: (context, snapshot) {
