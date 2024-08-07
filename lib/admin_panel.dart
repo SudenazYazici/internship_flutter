@@ -1,5 +1,7 @@
 import 'package:first_flutter/operations/admin_add.dart';
 import 'package:first_flutter/operations/admin_remove.dart';
+import 'package:first_flutter/operations/cinema_hall_add.dart';
+import 'package:first_flutter/operations/cinema_hall_remove.dart';
 import 'package:first_flutter/operations/movie_add.dart';
 import 'package:first_flutter/operations/movie_remove.dart';
 import 'package:first_flutter/operations/theatre_add.dart';
@@ -126,6 +128,12 @@ class _AdminPanelState extends State<AdminPanel> {
               if (selectedModel == ModelLabel.movie &&
                   selectedOperation == OperationLabel.remove)
                 const MovieRemove(),
+              if (selectedModel == ModelLabel.cinemaHall &&
+                  selectedOperation == OperationLabel.add)
+                const CinemaHallAdd(),
+              if (selectedModel == ModelLabel.cinemaHall &&
+                  selectedOperation == OperationLabel.remove)
+                const CinemaHallRemove(),
               if (selectedModel == ModelLabel.admin &&
                   selectedOperation == OperationLabel.add)
                 const AdminAdd(),
