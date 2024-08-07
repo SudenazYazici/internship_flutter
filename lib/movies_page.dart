@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'models.dart';
+
 class MoviesPage extends StatefulWidget {
   @override
   _MoviesPageState createState() => _MoviesPageState();
@@ -67,26 +69,6 @@ class _MoviesPageState extends State<MoviesPage> {
           },
         ),
       ),
-    );
-  }
-}
-
-class Movie {
-  final int id;
-  final String name;
-  final String details;
-
-  Movie({
-    required this.id,
-    required this.name,
-    required this.details,
-  });
-
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
-      id: json['id'],
-      name: json['name'],
-      details: json['details'],
     );
   }
 }
