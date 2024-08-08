@@ -6,6 +6,7 @@ import 'package:first_flutter/operations/movie_add.dart';
 import 'package:first_flutter/operations/movie_remove.dart';
 import 'package:first_flutter/operations/seat_remove.dart';
 import 'package:first_flutter/operations/session_add.dart';
+import 'package:first_flutter/operations/session_remove.dart';
 import 'package:first_flutter/operations/theatre_add.dart';
 import 'package:first_flutter/operations/theatre_remove.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +148,9 @@ class _AdminPanelState extends State<AdminPanel> {
               if (selectedModel == ModelLabel.session &&
                   selectedOperation == OperationLabel.add)
                 const SessionAdd(),
+              if (selectedModel == ModelLabel.session &&
+                  selectedOperation == OperationLabel.remove)
+                const SessionRemove(),
               if (selectedModel == ModelLabel.admin &&
                   selectedOperation == OperationLabel.add)
                 const AdminAdd(),
