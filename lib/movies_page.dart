@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'models.dart';
+import 'movie_details_page.dart';
 
 class MoviesPage extends StatefulWidget {
   @override
@@ -60,7 +61,19 @@ class _MoviesPageState extends State<MoviesPage> {
                       subtitle: Text(
                         movie.details,
                         style: TextStyle(color: Colors.grey[600]),
+                        maxLines: 1, // Limit to one line for a cleaner look
+                        overflow: TextOverflow.ellipsis, // Handle overflow
                       ),
+                      onTap: () {
+                        // Navigate to the details page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MovieDetailsPage(movie: movie),
+                          ),
+                        );
+                      },
                     ),
                   );
                 },
