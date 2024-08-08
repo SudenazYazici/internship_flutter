@@ -142,8 +142,8 @@ class _SessionAddState extends State<SessionAdd> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Form(
         key: formKey,
         child: ListView(
