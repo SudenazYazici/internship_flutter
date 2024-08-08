@@ -13,11 +13,50 @@ class SessionRemove extends StatefulWidget {
 
 class _SessionRemoveState extends State<SessionRemove> {
   late Future<List<Session>> _sessions;
+  final Map<int, String> _cinemaNames = {};
+  final Map<int, String> _cinemaHallNames = {};
+  final Map<int, String> _movieNames = {};
 
   @override
   void initState() {
     super.initState();
     _sessions = fetchSessions();
+  }
+
+  Future<String> fetchCinemaName(int cinemaId) async {
+    final response =
+        await http.get(Uri.parse('https://10.0.2.2:7030/api/Cinema/$cinemaId'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      return data['name'];
+    } else {
+      throw Exception('Failed to load cinema');
+    }
+  }
+
+  Future<String> fetchCinemaHallName(int cinemaHallId) async {
+    final response = await http
+        .get(Uri.parse('https://10.0.2.2:7030/api/CinemaHall/$cinemaHallId'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      return data['hallNum'].toString();
+    } else {
+      throw Exception('Failed to load cinema hall');
+    }
+  }
+
+  Future<String> fetchMovieName(int movieId) async {
+    final response = await http
+        .get(Uri.parse('https://10.0.2.2:7030/api/Movie/by-id/$movieId'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      return data['name'];
+    } else {
+      throw Exception('Failed to load movie');
+    }
   }
 
   Future<List<Session>> fetchSessions() async {
@@ -34,7 +73,22 @@ class _SessionRemoveState extends State<SessionRemove> {
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
-      return data.map((json) => Session.fromJson(json)).toList();
+      List<Session> sessions =
+          data.map((json) => Session.fromJson(json)).toList();
+
+      for (var session in sessions) {
+        final cinemaName = await fetchCinemaName(session.cinemaId);
+        final cinemaHallName = await fetchCinemaHallName(session.cinemaHallId);
+        final movieName = await fetchMovieName(session.movieId);
+
+        setState(() {
+          _cinemaNames[session.cinemaId] = cinemaName;
+          _cinemaHallNames[session.cinemaHallId] = cinemaHallName;
+          _movieNames[session.movieId] = movieName;
+        });
+      }
+
+      return sessions;
     } else {
       throw Exception('Failed to load sessions');
     }
@@ -114,7 +168,13 @@ class _SessionRemoveState extends State<SessionRemove> {
                   return Card(
                     child: ListTile(
                       leading: Icon(Icons.schedule),
-                      title: Text(session.id.toString()),
+                      title: Text('Session Id: ${session.id}'),
+                      subtitle: Text(
+                        'Cinema: ${_cinemaNames[session.cinemaId]}'
+                        '\nCinema Hall: ${_cinemaHallNames[session.cinemaHallId]}'
+                        '\nMovie: ${_movieNames[session.movieId]}'
+                        '\nStart Date: ${session.startDate}',
+                      ),
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
