@@ -172,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton.icon(
               icon: const Icon(
                 Icons.admin_panel_settings_outlined,
-                color: Colors.black54,
+                color: Colors.white54,
               ),
               onPressed: () {
                 Navigator.push(
@@ -182,18 +182,18 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               label: Text(
                 "Panel",
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(color: Colors.white54),
               ),
             ),
           TextButton.icon(
             icon: const Icon(
               Icons.logout,
-              color: Colors.black54,
+              color: Colors.white54,
             ),
             onPressed: _confirmLogout,
             label: Text(
               "Log out",
-              style: TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.white54),
             ),
           ),
         ],
