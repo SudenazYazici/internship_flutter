@@ -13,11 +13,43 @@ class SeatRemove extends StatefulWidget {
 
 class _SeatRemoveState extends State<SeatRemove> {
   late Future<List<Seat>> _seats;
+  final Map<int, String> _cinemaNames = {};
+  final Map<int, String> _cinemaHallNames = {};
 
   @override
   void initState() {
     super.initState();
     _seats = fetchSeats();
+  }
+
+  Future<String> fetchCinemaName(int cinemaId) async {
+    final response =
+        await http.get(Uri.parse('https://10.0.2.2:7030/api/Cinema/$cinemaId'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      Cinema cinema = Cinema.fromJson(data);
+      return cinema.name;
+    } else {
+      throw Exception('Failed to fetch cinema');
+    }
+  }
+
+  Future<String> fetchCinemaHallName(int cinemaHallId) async {
+    final response = await http
+        .get(Uri.parse('https://10.0.2.2:7030/api/CinemaHall/$cinemaHallId'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      CinemaHall cinemaHall = CinemaHall.fromJson(data);
+      final cinemaName = await fetchCinemaName(cinemaHall.cinemaId);
+      setState(() {
+        _cinemaNames[cinemaHall.id] = cinemaName;
+      });
+      return cinemaHall.hallNum.toString();
+    } else {
+      throw Exception('Failed to fetch cinema hall');
+    }
   }
 
   Future<List<Seat>> fetchSeats() async {
@@ -26,7 +58,16 @@ class _SeatRemoveState extends State<SeatRemove> {
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
-      return data.map((json) => Seat.fromJson(json)).toList();
+      List<Seat> seats = data.map((json) => Seat.fromJson(json)).toList();
+
+      for (var seat in seats) {
+        final cinemaHallName = await fetchCinemaHallName(seat.cinemaHallId);
+        setState(() {
+          _cinemaHallNames[seat.id] = cinemaHallName;
+        });
+      }
+
+      return seats;
     } else {
       throw Exception('Failed to load seats');
     }
@@ -107,6 +148,8 @@ class _SeatRemoveState extends State<SeatRemove> {
                     child: ListTile(
                       leading: Icon(Icons.event_seat),
                       title: Text('Seat ${seat.seatNum}'),
+                      subtitle: Text(
+                          'Cinema Hall: ${_cinemaHallNames[seat.id]}\nCinema: ${_cinemaNames[seat.cinemaHallId]}'),
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
