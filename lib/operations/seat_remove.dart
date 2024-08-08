@@ -105,7 +105,7 @@ class _SeatRemoveState extends State<SeatRemove> {
                   final seat = snapshot.data![index];
                   return Card(
                     child: ListTile(
-                      leading: Icon(Icons.location_on_sharp),
+                      leading: Icon(Icons.event_seat),
                       title: Text('Seat ${seat.seatNum}'),
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),

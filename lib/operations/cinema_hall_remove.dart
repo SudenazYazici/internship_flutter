@@ -119,7 +119,7 @@ class _CinemaHallRemoveState extends State<CinemaHallRemove> {
                   final cinemaHall = snapshot.data![index];
                   return Card(
                     child: ListTile(
-                      leading: Icon(Icons.location_on_sharp),
+                      leading: Icon(Icons.theaters),
                       title: Text('Cinema Hall ${cinemaHall.hallNum}'),
                       subtitle: FutureBuilder<String>(
                         future: fetchCinemaName(cinemaHall.cinemaId),

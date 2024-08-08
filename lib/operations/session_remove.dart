@@ -113,7 +113,7 @@ class _SessionRemoveState extends State<SessionRemove> {
                   final session = snapshot.data![index];
                   return Card(
                     child: ListTile(
-                      leading: Icon(Icons.location_on_sharp),
+                      leading: Icon(Icons.schedule),
                       title: Text(session.id.toString()),
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
