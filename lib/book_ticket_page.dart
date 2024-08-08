@@ -17,17 +17,27 @@ class _BookTicketPageState extends State<BookTicketPage> {
   Movie? selectedMovie;
   int price = 150;
   int? user_Id;
+  bool isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
     _theatres = fetchTheatres();
+    checkLoginStatus();
   }
 
   Future<int> _fetchUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int userId = prefs.getInt('userId') ?? 0;
     return userId;
+  }
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString('user');
+    setState(() {
+      isLoggedIn = user != null;
+    });
   }
 
   Future<List<Cinema>> fetchTheatres() async {
@@ -163,6 +173,18 @@ class _BookTicketPageState extends State<BookTicketPage> {
   //String? newMovieName;
   @override
   Widget build(BuildContext context) {
+    if (!isLoggedIn) {
+      return Scaffold(
+        backgroundColor: Colors.blueGrey[100],
+        appBar: AppBar(
+          title: Text("Not Logged In"),
+        ),
+        body: Center(
+          child: Text("You need to be logged in to book a ticket."),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
