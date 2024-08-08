@@ -25,7 +25,6 @@ class _TheatreRemoveState extends State<TheatreRemove> {
         await http.get(Uri.parse('https://10.0.2.2:7030/api/Cinema'));
 
     if (response.statusCode == 200) {
-      print(response.body);
       List<dynamic> data = json.decode(response.body);
       return data.map((json) => Cinema.fromJson(json)).toList();
     } else {
