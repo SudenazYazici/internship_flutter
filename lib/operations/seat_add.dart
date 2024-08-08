@@ -17,6 +17,7 @@ class _SeatAddState extends State<SeatAdd> {
   int? selectedCinemaHallId;
   late Future<List<CinemaHall>> _cinemaHalls;
   final formKey = GlobalKey<FormState>();
+  final Map<int, String> _cinemaNames = {};
 
   @override
   void initState() {
@@ -30,7 +31,17 @@ class _SeatAddState extends State<SeatAdd> {
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
-      return data.map((json) => CinemaHall.fromJson(json)).toList();
+      List<CinemaHall> cinemaHalls =
+          data.map((json) => CinemaHall.fromJson(json)).toList();
+
+      for (var cinemaHall in cinemaHalls) {
+        final cinemaName = await fetchCinemaName(cinemaHall.cinemaId);
+        setState(() {
+          _cinemaNames[cinemaHall.id] = cinemaName;
+        });
+      }
+
+      return cinemaHalls;
     } else {
       throw Exception('Failed to load cinema halls');
     }
@@ -118,7 +129,7 @@ class _SeatAddState extends State<SeatAdd> {
                   items: snapshot.data!.map((cinemaHall) {
                     return DropdownMenuItem<int>(
                       child: Text(
-                          'Cinema Hall ${cinemaHall.hallNum}\nCinema: ${fetchCinemaName(cinemaHall.cinemaId)}'),
+                          'Cinema Hall ${cinemaHall.hallNum}\nCinema: ${_cinemaNames[cinemaHall.id] ?? "Loading..."}'),
                       value: cinemaHall.id,
                     );
                   }).toList(),
