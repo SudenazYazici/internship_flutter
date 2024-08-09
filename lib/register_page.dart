@@ -41,11 +41,13 @@ class _RegisterPageState extends State<RegisterPage> {
       var user = jsonDecode(response.body);
       // Handle the user data as needed
       print('User registered: $user');
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('User registered successfully!')));
     } else {
       // If the server did not return a 200 OK response, show an error
       print('Failed to register user: ${response.reasonPhrase}');
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Failed to register user: ${response.reasonPhrase}')));
     }

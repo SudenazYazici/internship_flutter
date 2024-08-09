@@ -31,10 +31,12 @@ class _MovieAddState extends State<MovieAdd> {
       }),
     );
     if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Movie added successfully!')),
       );
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to add movie. Please try again.')),
       );

@@ -44,6 +44,7 @@ class _TheatreRemoveState extends State<TheatreRemove> {
       },
     );
     if (response.statusCode == 204) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Theatre removed successfully!')),
       );
@@ -51,6 +52,7 @@ class _TheatreRemoveState extends State<TheatreRemove> {
         _theatres = fetchTheatres();
       });
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to remove theatre. Please try again.')),
       );

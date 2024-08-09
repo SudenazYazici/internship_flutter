@@ -57,6 +57,7 @@ class _CinemaHallRemoveState extends State<CinemaHallRemove> {
       },
     );
     if (response.statusCode == 204) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Cinema hall removed successfully!')),
       );
@@ -64,6 +65,7 @@ class _CinemaHallRemoveState extends State<CinemaHallRemove> {
         _cinemaHalls = fetchCinemaHalls();
       });
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('Failed to remove cinema hall. Please try again.')),

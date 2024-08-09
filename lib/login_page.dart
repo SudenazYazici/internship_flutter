@@ -58,10 +58,12 @@ class _LoginPageState extends State<LoginPage> {
 
       widget.onLogin();
 
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('User logged in successfully!')));
     } else {
       print('Failed to log in: ${response.reasonPhrase}');
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Failed to log in: ${response.reasonPhrase}')));
     }

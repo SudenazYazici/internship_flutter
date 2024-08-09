@@ -32,10 +32,12 @@ class _TheatreAddState extends State<TheatreAdd> {
       }),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Theatre added successfully!')),
       );
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to add theatre. Please try again.')),
       );

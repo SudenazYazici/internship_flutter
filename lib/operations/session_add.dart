@@ -88,10 +88,12 @@ class _SessionAddState extends State<SessionAdd> {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Session added successfully!')),
       );
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to add Session. Please try again.')),
       );

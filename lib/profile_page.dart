@@ -92,6 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
       _fetchUserTickets();
     } catch (e) {
       print('Failed to delete ticket: $e');
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to delete ticket')),
       );
@@ -155,6 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
       return await getCinema(cinemaId);
     } catch (e) {
       print('Failed to get cinema of ticket: $e');
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to get cinema of ticket')),
       );

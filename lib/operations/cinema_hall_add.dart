@@ -53,10 +53,12 @@ class _CinemaHallAddState extends State<CinemaHallAdd> {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Cinema hall added successfully!')),
       );
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to add cinema hall. Please try again.')),
       );

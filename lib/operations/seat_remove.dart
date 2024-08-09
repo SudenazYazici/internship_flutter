@@ -85,6 +85,7 @@ class _SeatRemoveState extends State<SeatRemove> {
       },
     );
     if (response.statusCode == 204) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Seat removed successfully!')),
       );
@@ -92,6 +93,7 @@ class _SeatRemoveState extends State<SeatRemove> {
         _seats = fetchSeats();
       });
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to remove seat. Please try again.')),
       );

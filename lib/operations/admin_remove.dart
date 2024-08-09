@@ -55,6 +55,7 @@ class _AdminRemoveState extends State<AdminRemove> {
       },
     );
     if (response.statusCode == 204) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Admin removed successfully!')),
       );
@@ -62,6 +63,7 @@ class _AdminRemoveState extends State<AdminRemove> {
         _admins = fetchAdmins();
       });
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to remove admin. Please try again.')),
       );

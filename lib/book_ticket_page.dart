@@ -161,10 +161,12 @@ class _BookTicketPageState extends State<BookTicketPage> {
       newSession = null;
       newSeat = null;
       setState(() {});
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Ticket bought successfully!')),
       );
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to buy ticket. Please try again.')),
       );

@@ -106,6 +106,7 @@ class _SessionRemoveState extends State<SessionRemove> {
       },
     );
     if (response.statusCode == 204) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Session removed successfully!')),
       );
@@ -113,6 +114,7 @@ class _SessionRemoveState extends State<SessionRemove> {
         _sessions = fetchSessions();
       });
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to remove session. Please try again.')),
       );

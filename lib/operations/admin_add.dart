@@ -37,12 +37,11 @@ class _AdminAddState extends State<AdminAdd> {
     );
 
     if (response.statusCode == 200) {
-      var user = jsonDecode(response.body);
-      print('Admin registered: $user');
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Admin registered successfully!')));
     } else {
-      print('Failed to register admin: ${response.reasonPhrase}');
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Failed to register admin: ${response.reasonPhrase}')));
     }

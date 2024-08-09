@@ -44,6 +44,7 @@ class _MovieRemoveState extends State<MovieRemove> {
       },
     );
     if (response.statusCode == 204) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Movie removed successfully!')),
       );
@@ -51,6 +52,7 @@ class _MovieRemoveState extends State<MovieRemove> {
         _movies = fetchMovies();
       });
     } else {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to remove movie. Please try again.')),
       );
