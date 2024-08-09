@@ -19,6 +19,14 @@ class Cinema {
       address: json['address'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'city': city,
+      'address': address,
+    };
+  }
 }
 
 class Movie {
@@ -38,6 +46,13 @@ class Movie {
       name: json['name'],
       details: json['details'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'details': details,
+    };
   }
 }
 
@@ -71,6 +86,17 @@ class Session {
       durationInMinutes: json['durationInMinutes'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'cinemaId': cinemaId,
+      'cinemaHallId': cinemaHallId,
+      'movieId': movieId,
+      'startDate': startDate,
+      'endDate': endDate,
+      'durationInMinutes': durationInMinutes,
+    };
+  }
 }
 
 class CinemaHall {
@@ -91,6 +117,13 @@ class CinemaHall {
       cinemaId: json['cinemaId'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'hallNum': hallNum,
+      'cinemaId': cinemaId,
+    };
+  }
 }
 
 class Seat {
@@ -110,6 +143,14 @@ class Seat {
       seatNum: json['seatNum'],
       cinemaHallId: json['cinemaHallId'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'seatNum': seatNum,
+      'cinemaHallId': cinemaHallId,
+    };
   }
 }
 
@@ -135,6 +176,16 @@ class Ticket {
       date: DateTime.parse(json['date']),
       price: json['price'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'cinemaId': cinemaId,
+      'movieName': movieName,
+      'date': date,
+      'price': price,
+    };
   }
 }
 
@@ -165,5 +216,16 @@ class User {
           : DateTime.now(),
       role: json['role'] ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'password': password,
+      'birthdate': birthdate,
+      'role': role,
+    };
   }
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models.dart';
+
 class TheatreAdd extends StatefulWidget {
   const TheatreAdd({super.key});
 
@@ -19,17 +21,20 @@ class _TheatreAddState extends State<TheatreAdd> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('userToken');
 
+    Cinema cinema = Cinema(
+      id: 0,
+      name: name,
+      city: city,
+      address: address,
+    );
+
     final response = await http.post(
       Uri.parse('https://10.0.2.2:7030/api/Cinema'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(<String, String>{
-        'name': name,
-        'city': city,
-        'address': address,
-      }),
+      body: jsonEncode(cinema.toJson()),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
