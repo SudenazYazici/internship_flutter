@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'seat_model.g.dart';
+
+@JsonSerializable()
 class Seat {
   final int id;
   final int seatNum;
@@ -9,19 +14,7 @@ class Seat {
     required this.cinemaHallId,
   });
 
-  factory Seat.fromJson(Map<String, dynamic> json) {
-    return Seat(
-      id: json['id'],
-      seatNum: json['seatNum'],
-      cinemaHallId: json['cinemaHallId'],
-    );
-  }
+  factory Seat.fromJson(Map<String, dynamic> json) => _$SeatFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'seatNum': seatNum,
-      'cinemaHallId': cinemaHallId,
-    };
-  }
+  Map<String, dynamic> toJson() => _$SeatToJson(this);
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:first_flutter/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,16 +20,19 @@ class _MovieAddState extends State<MovieAdd> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('userToken');
 
+    Movie movie = Movie(
+      id: 0,
+      name: name,
+      details: details,
+    );
+
     final response = await http.post(
       Uri.parse('https://10.0.2.2:7030/api/Movie'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(<String, String>{
-        'name': name,
-        'details': details,
-      }),
+      body: jsonEncode(movie),
     );
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();

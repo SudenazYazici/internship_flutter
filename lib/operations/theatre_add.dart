@@ -34,7 +34,7 @@ class _TheatreAddState extends State<TheatreAdd> {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(cinema.toJson()),
+      body: jsonEncode(cinema),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();

@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'session_model.g.dart';
+
+@JsonSerializable()
 class Session {
   final int id;
   final int cinemaId;
@@ -17,26 +22,8 @@ class Session {
     required this.durationInMinutes,
   });
 
-  factory Session.fromJson(Map<String, dynamic> json) {
-    return Session(
-      id: json['id'],
-      cinemaId: json['cinemaId'],
-      cinemaHallId: json['cinemaHallId'],
-      movieId: json['movieId'],
-      startDate: DateTime.parse(json['startDate']),
-      endDate: DateTime.parse(json['endDate']),
-      durationInMinutes: json['durationInMinutes'],
-    );
-  }
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'cinemaId': cinemaId,
-      'cinemaHallId': cinemaHallId,
-      'movieId': movieId,
-      'startDate': startDate,
-      'endDate': endDate,
-      'durationInMinutes': durationInMinutes,
-    };
-  }
+  factory Session.fromJson(Map<String, dynamic> json) =>
+      _$SessionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SessionToJson(this);
 }

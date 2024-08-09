@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'ticket_model.g.dart';
+
+@JsonSerializable()
 class Ticket {
   final int id;
   final int cinemaId;
@@ -12,23 +17,7 @@ class Ticket {
       required this.date,
       required this.price});
 
-  factory Ticket.fromJson(Map<String, dynamic> json) {
-    return Ticket(
-      id: json['id'],
-      cinemaId: json['cinemaId'],
-      movieName: json['movieName'],
-      date: DateTime.parse(json['date']),
-      price: json['price'],
-    );
-  }
+  factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'cinemaId': cinemaId,
-      'movieName': movieName,
-      'date': date,
-      'price': price,
-    };
-  }
+  Map<String, dynamic> toJson() => _$TicketToJson(this);
 }
