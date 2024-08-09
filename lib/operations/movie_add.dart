@@ -54,6 +54,12 @@ class _MovieAddState extends State<MovieAdd> {
                 hintText: "Name",
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter movie name';
+              }
+              return null;
+            },
             onSaved: (data) => name = data!,
           ),
           SizedBox(
@@ -65,6 +71,12 @@ class _MovieAddState extends State<MovieAdd> {
                 hintText: "Details",
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter movie details';
+              }
+              return null;
+            },
             onSaved: (data) => details = data!,
           ),
           SizedBox(

@@ -55,6 +55,12 @@ class _TheatreAddState extends State<TheatreAdd> {
                 hintText: "Name",
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter the theatre name';
+              }
+              return null;
+            },
             onSaved: (data) => name = data!,
           ),
           SizedBox(
@@ -66,6 +72,12 @@ class _TheatreAddState extends State<TheatreAdd> {
                 hintText: "City",
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter the city';
+              }
+              return null;
+            },
             onSaved: (data) => city = data!,
           ),
           SizedBox(
@@ -77,6 +89,12 @@ class _TheatreAddState extends State<TheatreAdd> {
                 hintText: "Address",
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter the address';
+              }
+              return null;
+            },
             onSaved: (data) => address = data!,
           ),
           SizedBox(

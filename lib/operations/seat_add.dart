@@ -109,6 +109,12 @@ class _SeatAddState extends State<SeatAdd> {
                 hintText: "Seat Number",
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter seat number';
+              }
+              return null;
+            },
             onSaved: (data) => seat_num = int.parse(data!),
           ),
           SizedBox(

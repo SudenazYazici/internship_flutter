@@ -85,6 +85,12 @@ class _CinemaHallAddState extends State<CinemaHallAdd> {
                 hintText: "Hall Number",
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter the hall number';
+              }
+              return null;
+            },
             onSaved: (data) => hall_num = int.parse(data!),
           ),
           SizedBox(
