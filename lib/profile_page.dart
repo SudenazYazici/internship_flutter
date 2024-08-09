@@ -229,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         final ticket = tickets[index];
                         return Card(
                           child: ListTile(
-                            leading: Icon(Icons.arrow_forward_ios),
+                            leading: Icon(Icons.local_activity),
                             title: Text(ticket.movieName),
                             subtitle: FutureBuilder<String>(
                               future: _getCinemaOfTicket(ticket.cinemaId),
