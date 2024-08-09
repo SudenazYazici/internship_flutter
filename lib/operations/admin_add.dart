@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../models/user_model.dart';
+
 class AdminAdd extends StatefulWidget {
   const AdminAdd({Key? key}) : super(key: key);
 
@@ -19,7 +21,16 @@ class _AdminAddState extends State<AdminAdd> {
     String name = _nameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
-    String birthDate = _birthDateController.text;
+    DateTime birthDate = DateTime.parse(_birthDateController.text);
+
+    User user = User(
+      id: 0,
+      name: name,
+      email: email,
+      password: password,
+      birthdate: birthDate,
+      role: 'admin',
+    );
 
     var url = Uri.parse('https://10.0.2.2:7030/api/User/register');
     var response = await http.post(
@@ -27,13 +38,7 @@ class _AdminAddState extends State<AdminAdd> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'Name': name,
-        'Email': email,
-        'Password': password,
-        'BirthDate': birthDate,
-        'Role': "admin",
-      }),
+      body: jsonEncode(user),
     );
 
     if (response.statusCode == 200) {
