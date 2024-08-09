@@ -10,7 +10,7 @@ You can find the backend part in [here](https://github.com/SudenazYazici/CinemaA
   <img src="https://github.com/user-attachments/assets/d0426174-8756-4fc9-8b85-483317d68173" width="200" />
   <img src="https://github.com/user-attachments/assets/3fcfc644-8074-4e2a-b122-b8552be548ce" width="200" />
   <img src="https://github.com/user-attachments/assets/ae583c85-ddc1-4670-9ee1-0ba7b5f5e6d3" width="200" />
-  <img src="https://github.com/user-attachments/assets/c2a48fb4-6226-4d9e-a8c8-4c8c3330f882" width="200" />
+  <img src="https://github.com/user-attachments/assets/7159ed87-b203-43ef-be6d-aa88fba5c2e5" width="200" />
   <img src="https://github.com/user-attachments/assets/135e97a4-d7d7-4a88-8665-cbb75d59bba4" width="200" />
 </p>
 
