@@ -397,6 +397,19 @@ class _BookTicketPageState extends State<BookTicketPage> {
             ),
             ElevatedButton(
               onPressed: () {
+                if (selectedMovie == null ||
+                    newTheatre == null ||
+                    newCinemaHall == null ||
+                    newSession == null ||
+                    newSeat == null) {
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                            'Please select all fields before buying a ticket.')),
+                  );
+                  return;
+                }
                 buyTicket(selectedMovie!.name, newTheatre!, newCinemaHall!,
                     newSeat!, newSession!, selectedSession!.startDate, price);
               },
