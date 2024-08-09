@@ -8,7 +8,7 @@ class User {
   final String name;
   final String email;
   final String password;
-  final DateTime birthdate;
+  final DateTime birthDate;
   final String role;
 
   User(
@@ -16,7 +16,7 @@ class User {
       required this.name,
       required this.email,
       required this.password,
-      required this.birthdate,
+      required this.birthDate,
       required this.role});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

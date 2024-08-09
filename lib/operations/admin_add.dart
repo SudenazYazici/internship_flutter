@@ -28,7 +28,7 @@ class _AdminAddState extends State<AdminAdd> {
       name: name,
       email: email,
       password: password,
-      birthdate: birthDate,
+      birthDate: birthDate,
       role: 'admin',
     );
 
