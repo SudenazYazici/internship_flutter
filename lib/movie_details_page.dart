@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'models.dart';
+
+import 'models/movie_model.dart';
 
 class MovieDetailsPage extends StatelessWidget {
   const MovieDetailsPage({Key? key, required this.movie}) : super(key: key);

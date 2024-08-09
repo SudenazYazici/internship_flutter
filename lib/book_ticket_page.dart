@@ -2,7 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'models.dart';
+
+import 'models/cinema_hall_model.dart';
+import 'models/movie_model.dart';
+import 'models/seat_model.dart';
+import 'models/session_model.dart';
+import 'models/theatre_model.dart';
 
 class BookTicketPage extends StatefulWidget {
   const BookTicketPage({super.key});

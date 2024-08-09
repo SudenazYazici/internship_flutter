@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'models.dart';
+import 'models/ticket_model.dart';
 
 Future<List<Ticket>> fetchTickets(int userId) async {
   final response = await http

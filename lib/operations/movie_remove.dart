@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:first_flutter/models.dart';
+
+import '../models/movie_model.dart';
 
 class MovieRemove extends StatefulWidget {
   const MovieRemove({super.key});

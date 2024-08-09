@@ -1,9 +1,10 @@
-import 'package:first_flutter/models.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/theatre_model.dart';
 
 class CinemaHallAdd extends StatefulWidget {
   const CinemaHallAdd({super.key});
