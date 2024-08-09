@@ -155,6 +155,12 @@ class _BookTicketPageState extends State<BookTicketPage> {
       }),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
+      newTheatre = null;
+      newMovie = null;
+      newCinemaHall = null;
+      newSession = null;
+      newSeat = null;
+      setState(() {});
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Ticket bought successfully!')),
       );
