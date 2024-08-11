@@ -1,3 +1,4 @@
+import 'package:first_flutter/models/session_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -16,15 +17,15 @@ class SessionAdd extends StatefulWidget {
 }
 
 class _SessionAddState extends State<SessionAdd> {
-  int? selectedCinemaId;
-  int? selectedCinemaHallId;
-  int? selectedMovieId;
+  late int selectedCinemaId = -1;
+  late int selectedCinemaHallId = -1;
+  late int selectedMovieId = -1;
   late Future<List<Cinema>> _cinemas;
   late Future<List<CinemaHall>> _cinemaHalls = Future.value([]);
   late Future<List<Movie>> _movies = Future.value([]);
   late DateTime startDate = DateTime.now();
   late DateTime endDate = DateTime.now();
-  int? durationInMinutes;
+  late int durationInMinutes = -1;
   final TextEditingController _durationController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -74,20 +75,23 @@ class _SessionAddState extends State<SessionAdd> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('userToken');
 
+    Session session = Session(
+      id: 0,
+      cinemaId: selectedCinemaId,
+      cinemaHallId: selectedCinemaHallId,
+      movieId: selectedMovieId,
+      startDate: startDate,
+      endDate: endDate,
+      durationInMinutes: durationInMinutes,
+    );
+
     final response = await http.post(
       Uri.parse('https://10.0.2.2:7030/api/Session'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(<String, String>{
-        'cinemaId': selectedCinemaId.toString(),
-        'cinemaHallId': selectedCinemaHallId.toString(),
-        'movieId': selectedMovieId.toString(),
-        'startDate': startDate.toIso8601String(),
-        'endDate': endDate.toIso8601String(),
-        'durationInMinutes': durationInMinutes.toString(),
-      }),
+      body: jsonEncode(session),
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -175,13 +179,13 @@ class _SessionAddState extends State<SessionAdd> {
                     onChanged: (value) {
                       setState(() {
                         selectedCinemaId = value!;
-                        _cinemaHalls = fetchCinemaHalls(selectedCinemaId!);
-                        _movies = fetchMovies(selectedCinemaId!);
-                        selectedCinemaHallId = null;
-                        selectedMovieId = null;
+                        _cinemaHalls = fetchCinemaHalls(selectedCinemaId);
+                        _movies = fetchMovies(selectedCinemaId);
+                        selectedCinemaHallId = -1;
+                        selectedMovieId = -1;
                       });
                     },
-                    value: selectedCinemaId,
+                    value: selectedCinemaId == -1 ? null : selectedCinemaId,
                   );
                 }
               },
@@ -212,7 +216,9 @@ class _SessionAddState extends State<SessionAdd> {
                         selectedCinemaHallId = value!;
                       });
                     },
-                    value: selectedCinemaHallId,
+                    value: selectedCinemaHallId == -1
+                        ? null
+                        : selectedCinemaHallId,
                   );
                 }
               },
@@ -243,7 +249,7 @@ class _SessionAddState extends State<SessionAdd> {
                         selectedMovieId = value!;
                       });
                     },
-                    value: selectedMovieId,
+                    value: selectedMovieId == -1 ? null : selectedMovieId,
                   );
                 }
               },
@@ -284,7 +290,7 @@ class _SessionAddState extends State<SessionAdd> {
                 return null;
               },
               onSaved: (value) {
-                durationInMinutes = int.tryParse(value!);
+                durationInMinutes = int.tryParse(value!) ?? -1;
               },
             ),
             SizedBox(height: 10),

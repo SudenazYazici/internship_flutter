@@ -1,3 +1,4 @@
+import 'package:first_flutter/models/seat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -16,7 +17,7 @@ class SeatAdd extends StatefulWidget {
 
 class _SeatAddState extends State<SeatAdd> {
   late int seat_num;
-  int? selectedCinemaHallId;
+  late int selectedCinemaHallId = -1;
   late Future<List<CinemaHall>> _cinemaHalls;
   final formKey = GlobalKey<FormState>();
   final Map<int, String> _cinemaNames = {};
@@ -66,16 +67,19 @@ class _SeatAddState extends State<SeatAdd> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('userToken');
 
+    Seat seat = Seat(
+      id: 0,
+      seatNum: seat_num,
+      cinemaHallId: selectedCinemaHallId,
+    );
+
     final response = await http.post(
       Uri.parse('https://10.0.2.2:7030/api/Seat'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(<String, String>{
-        'seatNum': seat_num.toString(),
-        'cinemaHallId': selectedCinemaHallId.toString(),
-      }),
+      body: jsonEncode(seat),
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -148,7 +152,8 @@ class _SeatAddState extends State<SeatAdd> {
                       selectedCinemaHallId = value!;
                     });
                   },
-                  value: selectedCinemaHallId,
+                  value:
+                      selectedCinemaHallId == -1 ? null : selectedCinemaHallId,
                 );
               }
             },
